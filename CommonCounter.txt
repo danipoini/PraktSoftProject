@@ -1,0 +1,5 @@
+This is a demo file.
+
+version_number=0
+
+End of the file.
