@@ -1,5 +1,9 @@
 This is a demo file.
 
-version_number=0
+version_number=2
+
+version 0: Initial version of the file.
+version 1: Changed by Cleo Pau to generate the first conflicts.
+version 2: Modified by Lidiia Zharikova.
 
 End of the file.
