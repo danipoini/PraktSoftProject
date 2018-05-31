@@ -1,4 +1,4 @@
-package Figures;
+
 
 import java.util.ArrayList;
 
@@ -19,5 +19,9 @@ public class Vertex {
 	
 	public ArrayList<Integer> getEdges(){
 		return edges;
+	}
+	public int getEdge(int i){
+		
+		return edges.get(i);
 	}
 }
