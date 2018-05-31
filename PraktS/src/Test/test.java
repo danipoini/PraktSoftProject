@@ -14,6 +14,7 @@ public class test {
 		test.addEdges(0 , 1);
 		test.addEdges(1 , 2);
 		test.addEdges(1, 3);
+		test.removeEdges(1,2);
 		ArrayList<Vertex> v = test.getVertex();
 		System.out.println(v.get(0).getEdges());
 		System.out.println(v.get(1).getEdges());
