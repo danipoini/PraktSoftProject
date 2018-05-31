@@ -1,6 +1,6 @@
-package Test;
+
 import java.util.ArrayList;
-import Figures.*;
+
 
 public class test {
 
@@ -13,14 +13,11 @@ public class test {
 		test.addVertex();
 		test.addEdges(0 , 1);
 		test.addEdges(1 , 2);
-		test.addEdges(1, 3);
-		test.removeEdges(1,2);
-		ArrayList<Vertex> v = test.getVertex();
-		System.out.println(v.get(0).getEdges());
-		System.out.println(v.get(1).getEdges());
-		System.out.println(v.get(2).getEdges());
-		test.removeVertex();
-		System.out.println(v.get(1).getEdges());
+		test.addEdges(0, 2);
+
+		test.exhaustive(test.vertices, 3);
+		test.algXcolors(test.vertices);
 	}
 
 }
+
