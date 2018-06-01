@@ -165,6 +165,45 @@ public class Graph {
 		}
 	}
 	
+	public  int[] algGcolors(ArrayList<Vertex> vertices) {
+		int j=0;
+		int[] out=new int[vertices.size()];
+		Vector <Integer>z=new Vector();
+		for (int i=0;i<vertices.size();i++) {
+			find_smaller_neighbours(vertices,z, i);
+			j=find_smallest_color(z,out);
+			out[i]=j;
+			z.clear();
+		}
+		return out;
+	}
+
+	public int find_smallest_color(Vector<Integer> z, int[] out) {
+		boolean a =true;
+		if(z.isEmpty()==true) {
+			return 1;
+		}
+		for(int j=1;;j++) {
+			for(int i=0;i<z.size();i++) {
+				if(out[z.elementAt(i)]==j) {
+					a=false;
+				}				
+			}
+			if(a==true) {
+				return j;
+			}
+			a=true;
+		}		
+	}
+
+	public Vector<Integer> find_smaller_neighbours(ArrayList<Vertex> vertices,Vector <Integer> z, int i) {
+		for(int j=0;j<vertices.get(i).getEdges().size();j++) {
+			if(vertices.get(i).getEdge(j)<i) {
+				z.add(vertices.get(i).getEdge(j));
+			}
+		}
+		return z;
+	}
 	
 }
 
