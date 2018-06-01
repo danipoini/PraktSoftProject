@@ -183,5 +183,148 @@ class Testcases {
 		assertEquals(3,i[2]);
 		assertEquals(1,i[3]);
 	}
+	
+	@Test
+	void test_find_smaller_neighbours_non_neighbour() {
+		Graph test = new Graph();
+		test.addVertex();
+		test.addVertex();
+		test.addVertex();
+		test.addVertex();
+		test.addEdges(0 , 1);
+		test.addEdges(1 , 2);
+		test.addEdges(0, 2);
+		Vector <Integer>z=new Vector();
+		assertEquals(0,test.find_smaller_neighbours(test.vertices, z, 3).size());
+	}
+	
+	@Test
+	void test_find_smaller_neighbours_normal_behaviour() {
+		Graph test = new Graph();
+		test.addVertex();
+		test.addVertex();
+		test.addVertex();
+		test.addVertex();
+		test.addEdges(0 , 1);
+		test.addEdges(1 , 2);
+		test.addEdges(0, 2);
+		Vector <Integer>z=new Vector();
+		assertEquals(1,test.find_smaller_neighbours(test.vertices, z, 1).size());
+		z.clear();
+		assertEquals(0,(int)test.find_smaller_neighbours(test.vertices, z, 1).elementAt(0));
+	}
+	
+	@Test
+	void test_find_smallest_color_not_first() {
+		Graph test = new Graph();
+		
+		Vector<Integer> z=new Vector();
+		z.add(2);
+		z.add(4);
+		int[] out= new int[5];
+		out[2]=2;
+		out[4]=1;
+		
+		assertEquals(3,test.find_smallest_color(z, out));
+	}
+	
+	@Test
+	void test_find_smallest_color_in_the_middle() {
+		Graph test = new Graph();
+		
+		Vector<Integer> z=new Vector();
+		z.add(2);
+		z.add(4);
+		int[] out= new int[5];
+		out[2]=3;
+		out[4]=1;
+		
+		assertEquals(2,test.find_smallest_color(z, out));
+	}
+	
+	@Test
+	void test_find_smallest_color_first() {
+		Graph test = new Graph();
+		
+		Vector<Integer> z=new Vector();
+		z.add(2);
+		z.add(4);
+		int[] out= new int[5];
+		out[2]=3;
+		out[4]=2;
+		
+		assertEquals(1,test.find_smallest_color(z, out));
+	}
+	
+	@Test
+	void test_find_smallest_color_empty_vector() {
+		Graph test = new Graph();
+		
+		Vector<Integer> z=new Vector();
+		int[] out= new int[5];
+		
+		assertEquals(1,test.find_smallest_color(z, out));
+	}
+	
+	@Test
+	void test_algGcolors_normal_behaviour() {
+		Graph test = new Graph();
+		test.addVertex();
+		test.addVertex();
+		test.addVertex();
+		test.addVertex();
+		test.addEdges(0 , 1);
+		test.addEdges(1 , 2);
+		test.addEdges(0, 3);
+
+		int[]i=new int[4];
+		i=test.algGcolors(test.vertices);
+		
+		assertEquals(1,i[0]);
+		assertEquals(2,i[1]);
+		assertEquals(1,i[2]);
+		assertEquals(2,i[3]);
+	}
+	
+	@Test
+	void test_algGcolors_no_edges() {
+		Graph test = new Graph();
+		test.addVertex();
+		test.addVertex();
+		test.addVertex();
+		test.addVertex();
+
+
+		int[]i=new int[4];
+		i=test.algGcolors(test.vertices);
+		
+		assertEquals(1,i[0]);
+		assertEquals(1,i[1]);
+		assertEquals(1,i[2]);
+		assertEquals(1,i[3]);
+	}
+	
+	@Test
+	void test_algGcolors_all_vertices_connected() {
+		Graph test = new Graph();
+		test.addVertex();
+		test.addVertex();
+		test.addVertex();
+		test.addVertex();
+		test.addEdges(0,1);
+		test.addEdges(0,2);
+		test.addEdges(0,3);
+		test.addEdges(1,2);
+		test.addEdges(1,3);
+		test.addEdges(2,3);
+
+		int[]i=new int[4];
+		i=test.algGcolors(test.vertices);
+		
+		assertEquals(1,i[0]);
+		assertEquals(2,i[1]);
+		assertEquals(3,i[2]);
+		assertEquals(4,i[3]);
+	}
 
 }
