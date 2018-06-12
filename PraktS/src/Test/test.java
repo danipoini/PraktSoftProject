@@ -1,6 +1,6 @@
+package Test;
 
-import java.util.ArrayList;
-
+import Figures.*;
 
 public class test {
 

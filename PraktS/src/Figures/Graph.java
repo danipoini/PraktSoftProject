@@ -1,4 +1,4 @@
-
+package Figures;
 
 import java.awt.Color;
 import java.util.ArrayList;
@@ -79,20 +79,6 @@ public class Graph {
 			}
 		}
 	}
-	
-	/**
-	 * sinnlos weil meine funktion an beliebiger stelle Vertex entfernt
-	 */
-	/*
-	public void removeVertex(){
-		if(!vertices.isEmpty()) {
-			ArrayList<Integer> edges = vertices.get(vertices.size()-1).getEdges();
-			edges.forEach((j)->
-				{vertices.get(j).removeEdge(vertices.size()-1);
-			});
-		vertices.remove(vertices.size()-1);
-		}
-	}  */
 	
 	/**
 	 * remove Vertex on desired position
