@@ -428,7 +428,56 @@ public class Graph {
 	 * @return
 	 */
 	public Boolean algI(ArrayList<Vertex> v, int q) {
-		return false;
+		int n = 1 << v.size();
+		int [] g  = new int[n];
+		g[0] = 0;
+		ArrayList<ArrayList<Integer>> all = new ArrayList<ArrayList<Integer>>();
+		all.add(new ArrayList<Integer>());
+		for(int i = 1; i< n; i++) {
+			ArrayList<Integer> csub= new ArrayList<Integer>();
+			int j = i;
+			int in = 0;
+			while(j > 0) {
+				if((j & 1)>0) {
+					csub.add(in);
+				}
+				j >>= 1;
+				in ++;
+			}
+			int add = addAt(all,csub);
+		}
+		double sum = 0;
+		for(int i = 1; i < n;i++) {
+			g[i] = computeG(v,all,all.get(i),g);
+			sum = sum + Math.pow(-1, all.get(i).size())*Math.pow(g[i], q); 
+		}
+		return sum>0;
+	}
+	
+	public int computeG(ArrayList<Vertex> v,ArrayList<ArrayList<Integer>> all, ArrayList<Integer> csub, int[] g) {
+		ArrayList<Integer> n = v.get(csub.get(csub.size()-1)).getEdges();
+		
+		int last = csub.get(csub.size()-1);
+		csub.remove(csub.size()-1);
+		
+		int get1 = all.indexOf(csub);
+		
+		ArrayList<Integer> noneib = new ArrayList<Integer>(csub);
+		noneib.removeAll(n);
+		
+		int get2 = all.indexOf(noneib);
+		csub.add(last);
+		int res = g[get1] + g[get2] + 1;
+		return (res);
+	}
+	
+	public int addAt(ArrayList<ArrayList<Integer>> a,ArrayList<Integer> sub) {
+		int i = 0;
+		while(i < a.size() && a.get(i).size() <= sub.size()) {
+			i++;
+		}
+		a.add(i, sub);
+		return i;
 	}
 	
 	public int getMaxDegree(ArrayList<Vertex> v) {
