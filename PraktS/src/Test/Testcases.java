@@ -553,7 +553,7 @@ class Testcases {
 		test.addEdge(1,2);
 		test.addEdge(1,3);
 		int [] colors= {1,2,3,3};
-		assertEquals(colors,test.verify_two_coloring(test.getvertices(), colors));
+		assertEquals(colors,test.verifycoloring(test.getvertices(), colors));
 	}
 	
 	@Test
@@ -569,7 +569,7 @@ class Testcases {
 		test.addEdge(1,2);
 		test.addEdge(1,3);
 		int [] colors= {1,2,1,3};
-		assertEquals(null,test.verify_two_coloring(test.getvertices(), colors));
+		assertEquals(null,test.verifycoloring(test.getvertices(), colors));
 	}
 	
 	@Test
