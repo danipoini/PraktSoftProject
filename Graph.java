@@ -1,6 +1,8 @@
 import java.awt.Color;
 import java.util.ArrayList;
 
+import sun.security.provider.certpath.Vertex;
+
 public class Graph {
 	private static ArrayList<Color[]> colors;
 	ArrayList<Vertex> vertices;
@@ -23,15 +25,21 @@ public class Graph {
 	}
 	
 	public void removeEdges(int i,int j){
-
+		vertices.get(i).removeEdge(j);
+		veritces.get(j).removeEdge(i);
 	}
 	
-	public void removeVertex(int i){
-		ArrayList<Integer> edges = vertices.get(i).getEdges();
-		edges.forEach((j)->
-			{vertices.get(j).removeEdges(i);
-		});
-		vertices.remove(i);
+	/*
+	 * remuve last Vertex
+	 */
+	public void removeVertex(){
+		if(!vertices.isEmpty()) {
+			ArrayList<Integer> edges = vertices.get(vertices.size()-1).getEdges();
+			edges.forEach((j)->
+				{vertices.get(j).removeEdges(i);
+			});
+		vertices.remove(vertices.size()-1);
+		}
 	}
 	public void addColor(){
 		

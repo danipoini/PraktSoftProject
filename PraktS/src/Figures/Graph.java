@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Vector;
+import static java.lang.Math.sqrt;
 
 public class Graph {
 	private static ArrayList<Color[]> colors;
@@ -310,7 +311,7 @@ public class Graph {
 			colors=bipart_coloring(dyn,colors,parent);
 			parent=add_parents_and_queue(parent,vertices,dyn,Q,colors);	
 		}
-		return verify_two_coloring(vertices,colors);
+		return verifycoloring(vertices,colors);
 	}
 	
 	/**
@@ -322,7 +323,7 @@ public class Graph {
 	public  int[] algBcolors_not_connected(ArrayList<Vertex> vertices) {
 		int dyn;
 		int[]colors =new int[vertices.size()];
-		Vector <Integer>Q =new Vector();
+		Vector <Integer>Q = new Vector();
 		int[]parent= new int[vertices.size()];
 		int i=0;
 
@@ -338,7 +339,174 @@ public class Graph {
 			}
 			i=find_first_not_colored(colors);
 		}
-		return verify_two_coloring(vertices,colors);
+		return verifycoloring(vertices,colors);
+	}
+	
+	/**
+	 * Given a 3- chromatic graph G, finds a vertex-
+	 * coloring with O(sqrt(n)) colors.
+	 * @param vertices
+	 * @param n
+	 * @return
+	 */
+	public int[] algW(ArrayList<Vertex> v, int n) {
+		int c = 0;
+		int sqn = (int) Math.ceil(sqrt(n));
+		
+		ArrayList<Integer> neil = new ArrayList<Integer>();
+		ArrayList<Integer> left = createList(v.size());
+		ArrayList<Integer> check = new ArrayList<Integer>();
+		ArrayList<Vertex> neiv = new ArrayList<Vertex>();
+		
+		int[] col = new int[v.size()];
+		int i = findVertex(v,left,check,sqn);
+		while(i>=0) {
+			check.add(i);
+			neil = v.get(i).getEdges();
+			for(int j:neil) {
+				if(left.contains(j)) {
+					left.remove(left.indexOf(j));
+				}
+			}
+			neiv = createGraph(v,neil);
+			int [] newcol = this.algBcolors_not_connected(neiv);
+			col = addColors(col,newcol,neil,c);
+			c = c + getMax(newcol);
+			neiv.clear();
+			i = findVertex(v,left,check,sqn);
+		}
+		neiv = createGraph(v,left);
+		int [] newcol = this.algGcolors(neiv);
+		col = addColors(col,newcol,left,c);
+		return col;
+	}
+	
+	/**
+	 * Algorithm who finds a q coloring for vertices v under the condition that q > 4* x;
+	 * x beeing the maximal degree of v
+	 * 
+	 * slight modification if q < 4*x then it tries to find one using 100000 iterations.
+	 * @param v vertices
+	 * @param q colors
+	 * @return
+	 */
+	public int[] algM(ArrayList<Vertex> v, int q) {
+		int maxDeg = getMaxDegree(v);
+		int T = (int) (q*v.size() * (Math.log(2*v.size())/(q- 4* maxDeg)));
+		if(T< 0) {
+			T = 100000;
+		}
+		int[] col = new int[v.size()];
+		ArrayList<Integer> neib = new ArrayList<Integer>();
+		ArrayList<Integer> left = createList(v.size());
+		int j; int i = 0;
+		int cucol;
+		while(left.size() > 0 && i <T) {
+			j = (int)(Math.random()*left.size());
+			cucol = (int)(Math.random()*q);
+			neib = v.get(left.get(j)).getEdges();
+			Boolean isused = true;
+			for(int u:neib) {
+				if(col[u] == cucol) {
+					isused = false;
+				}
+			}
+			if(isused) {
+				col[left.get(j)] = cucol;
+				left.remove(j);
+			}
+			i++;
+		}
+		if(left.size()==0) {
+			return col;
+		}
+		else return null;
+	}
+	
+	/**
+	 * Determines whether a graph can be q colored
+	 * @return
+	 */
+	public Boolean algI(ArrayList<Vertex> v, int q) {
+		return false;
+	}
+	
+	public int getMaxDegree(ArrayList<Vertex> v) {
+		int max = v.get(0).getEdges().size();
+		for(int i = 1; i<v.size();i++ ) {
+			if(v.get(0).getEdges().size()>max) {
+				max = v.get(0).getEdges().size();
+			}
+		}
+		return max;
+	}
+	
+	
+	/**
+	 * creates a graph out of the vertices v and the list n
+	 * @param v
+	 * @param n
+	 * @return
+	 */
+	public ArrayList<Vertex> createGraph(ArrayList<Vertex> v, ArrayList<Integer> n){
+		Vertex[] newver = new Vertex[n.size()];
+		ArrayList<Integer> edges = new ArrayList<Integer>();
+		int u = 0;
+		for(int i:n) {
+			newver[u] = new Vertex();
+			edges = v.get(i).getEdges();
+			Integer[] ed = edges.toArray(new Integer[0]);
+			for(int j:ed) {
+				int x = n.indexOf(j);
+				if(x >= 0) {
+					newver[u].addEdge(x);
+				}
+			}
+			u++;
+		}
+		ArrayList<Vertex> r = new ArrayList<Vertex>(Arrays.asList(newver));
+		return r;
+	}
+	
+	/**
+	 * retruns the maximum of an list
+	 * @param a
+	 * @return
+	 */
+	public int getMax(int[] a) {
+		int max = a[0];
+		for(int i= 1;i< a.length;i++) {
+			if(a[i]>max) {
+				max=a[i];
+			}
+		}
+		return max;
+	}
+	
+	public int[] addColors(int[] col,int [] newcol, ArrayList<Integer> neil,int c) {
+		int j = 0;
+		for(int i:neil) {
+			col[i] = newcol[j] + c;
+			j++;
+		}
+		return col;
+	}
+	
+	public ArrayList<Integer> createList(int n){
+		ArrayList<Integer> l = new ArrayList<Integer>();
+		for(int i= 0;i< n;i++) {
+			l.add(i);
+		}
+		return l;
+	}
+	
+	public int findVertex(ArrayList<Vertex> v,ArrayList<Integer> leaft ,ArrayList<Integer> c,int sqn) {
+		for(int i:leaft) {
+			if(v.get(i).getEdges().size()>=sqn && !c.contains(i)) {
+				return i;
+			}
+		}
+		return -1;
 	}
 
 	/**
@@ -361,7 +529,7 @@ public class Graph {
 	 * @param colors are the colors of the vertices
 	 * @return is parameter colors if the coloring is correct. otherwise it is null
 	 */
-	public int[] verify_two_coloring(ArrayList<Vertex> vertices, int[] colors) {
+	public int[] verifycoloring(ArrayList<Vertex> vertices, int[] colors) {
 		for(int i=0;i<vertices.size();i++) {
 			for(int j=0;j<vertices.get(i).getEdges().size();j++) {
 				if(colors[i]==colors[vertices.get(i).getEdge(j)]) {

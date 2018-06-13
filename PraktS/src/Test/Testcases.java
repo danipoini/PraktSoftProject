@@ -1,3 +1,7 @@
+package Test;
+
+import Figures.*;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Vector;

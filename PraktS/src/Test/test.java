@@ -1,5 +1,7 @@
 package Test;
 
+import java.util.ArrayList;
+
 import Figures.*;
 
 public class test {
@@ -25,33 +27,20 @@ public class test {
 		System.out.println(i[3]);
 */		
 		Graph test = new Graph();
-		test.addVertex();
-		test.addVertex();
-		test.addVertex();
-		test.addVertex();
-		test.addVertex();
-		test.addVertex();
-		test.addVertex();
-		test.addEdge(0,3);
+		for(int i = 0;i<5;i++) {
+			test.addVertex();
+		}
+		test.addEdge(0,1);
 		test.addEdge(0,2);
-		test.addEdge(1,3);
+		test.addEdge(1,2);
+		test.addEdge(0,4);
 		test.addEdge(4,5);
-		test.addEdge(6,5);
-		test.addEdge(4,2);
 		
-		int[]i=new int[7];
-		i=test.algBcolors_not_connected(test.getvertices());
-		System.out.print(i[0]);
-		System.out.print(i[1]);
-		System.out.print(i[2]);
-		System.out.print(i[3]); 
-		System.out.print(i[4]);
-		System.out.print(i[5]);
-		System.out.print(i[6]);  
-		
-		
-
-
+		int[] x = test.algW(test.getvertices(),5);
+		int[] y = test.algM(test.getvertices(),3);
+		for(int i=0;i<y.length;i++) {
+			System.out.println(y[i]);
+		}
 	}
 
 }

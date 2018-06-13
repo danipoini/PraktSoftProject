@@ -30,6 +30,10 @@ public class Vertex {
 		}
 	}
 	
+	public void removeAllEdges() {
+		edges.clear();
+	}
+	
 	/**
 	 * returns the field edges from this class
 	 * @return edges
