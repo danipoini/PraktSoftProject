@@ -1,4 +1,4 @@
-/*package Test;
+package Test;
 
 import Figures.*;
 
@@ -886,5 +886,5 @@ class Testcases {
 		test.decreaseEdgeElements(4);
 		assertEquals(0,(int)test.getEdges().size());
 	}
-}*/
+}
 
