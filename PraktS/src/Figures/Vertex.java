@@ -17,7 +17,9 @@ public class Vertex {
 	 * @param i is the number of the connected Vertex
 	 */
 	public void addEdge(int i) {
-		edges.add(i);
+		if(edges.contains(i)==false) {
+			edges.add(i);
+		}
 	}
 	
 	/**
