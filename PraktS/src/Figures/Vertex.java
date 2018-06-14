@@ -31,7 +31,9 @@ public class Vertex {
 			edges.remove(edges.indexOf(i));
 		}
 	}
-	
+	/**
+	 * removes all edges from a vertex
+	 */
 	public void removeAllEdges() {
 		edges.clear();
 	}
