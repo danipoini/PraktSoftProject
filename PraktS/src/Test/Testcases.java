@@ -4,6 +4,7 @@ import Figures.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.ArrayList;
 import java.util.Vector;
 
 import org.junit.jupiter.api.Test;
@@ -989,6 +990,7 @@ class Testcases {
 		test.addEdge(0, 1);
 		
 		assertEquals(false,test.algI(test.getVertex(), 1));
+		assertEquals(true,test.algI(test.getVertex(), 2));
 	}
 	
 	@Test
@@ -1008,6 +1010,57 @@ class Testcases {
 		
 		assertEquals(true,test.algI(test.getVertex(), 3));
 		assertEquals(false,test.algI(test.getVertex(), 2));
+	}
+	
+	@Test
+	void algI_test_hugegraph2() {
+		Graph test = new Graph();
+		for(int i = 0; i< 6;i++) {
+			test.addVertex();
+		}
+		test.addEdge(0, 1);
+		test.addEdge(0, 2);
+		test.addEdge(0, 3);
+		test.addEdge(0, 4);
+		test.addEdge(1, 2);
+		test.addEdge(1, 3);
+		test.addEdge(1, 4);
+		test.addEdge(2, 3);
+		test.addEdge(2, 4);
+		test.addEdge(3, 4);
+		
+		assertEquals(true,test.algI(test.getVertex(), 7));
+		assertEquals(true,test.algI(test.getVertex(), 6));
+		assertEquals(true,test.algI(test.getVertex(), 5));
+		assertEquals(false,test.algI(test.getVertex(), 4));
+		assertEquals(false,test.algI(test.getVertex(), 3));
+		assertEquals(false,test.algI(test.getVertex(), 2));
+		assertEquals(false,test.algI(test.getVertex(), 1));
+	}
+	
+	@Test 
+	void createGraph(){
+		Graph test = new Graph();
+		for(int i = 0; i< 6;i++) {
+			test.addVertex();
+		}
+		test.addEdge(0, 1);
+		test.addEdge(0, 2);
+		test.addEdge(0, 3);
+		test.addEdge(0, 4);
+		test.addEdge(2, 3);
+		
+		ArrayList<Vertex> v = test.createGraph(test.getVertex(), test.getVertex().get(0).getEdges());
+		ArrayList<Integer> ed0 = new ArrayList<Integer>();
+
+		assertEquals(ed0,v.get(0).getEdges());
+		ed0.add(2);
+		assertEquals(ed0,v.get(1).getEdges());
+		ed0.clear();
+		ed0.add(1);
+		assertEquals(ed0,v.get(2).getEdges());
+		ed0.clear();
+		assertEquals(ed0,v.get(3).getEdges());
 	}
 }
 

@@ -9,29 +9,23 @@ import Figures.*;
 public class test {
 
 	public static void main(String[] args) {
-/*
 		Graph test = new Graph();
-		test.addVertex();
-		test.addVertex();
-		test.addVertex();
-		test.addVertex();
-		test.addEdges(0,1);
-		test.addEdges(1,2);
-		test.addEdges(0,3);
-
-		//test.exhaustive(test.getvertices(), 3);
-		//test.algXcolors(test.getvertices());
-		int[]i=new int[4];
-		i=test.algGcolors(test.getvertices());
-		System.out.println(i[0]);
-		System.out.println(i[1]);
-		System.out.println(i[2]);
-		System.out.println(i[3]);
-*/		
-		Graph test = new Graph();
-
-		test.addVertex();
-		System.out.println(test.algI(test.getVertex(),1));
+		for(int i = 0; i< 6;i++) {
+			test.addVertex();
+		}
+		test.addEdge(0, 1);
+		test.addEdge(0, 2);
+		test.addEdge(0, 3);
+		test.addEdge(0, 4);
+		test.addEdge(2, 3);
+		
+		ArrayList<Vertex> v = test.createGraph(test.getVertex(), test.getVertex().get(0).getEdges());
+		ArrayList<Integer> ed0 = new ArrayList<Integer>();
+		ed0.add(1);
+		ed0.add(2);
+		ed0.add(3);
+		
+		System.out.println(v.get(0).getEdges());
 	}
 
 }
