@@ -1,5 +1,7 @@
 package Test;
 
+import static org.junit.jupiter.api.Assumptions.assumingThat;
+
 import java.util.ArrayList;
 
 import Figures.*;
@@ -27,23 +29,9 @@ public class test {
 		System.out.println(i[3]);
 */		
 		Graph test = new Graph();
-		for(int i = 0;i<4;i++) {
-			test.addVertex();
-		}
-		test.addEdge(0,1);
-		test.addEdge(1,2);
-		test.addEdge(1,3);
-		test.addEdge(2,3);
-		test.addEdge(0,3);
-		test.addEdge(0,2);
-		
-		System.out.println(test.algI(test.getvertices(), 3));
-		//int[] x = test.algW(test.getVertex(), 5);
-		int[] y = test.algM(test.getVertex(), 4);
-		for(int i = 0; i< y.length;i++) {
-			System.out.println(" " + y[i]);
-		}
-		
+
+		test.addVertex();
+		System.out.println(test.algI(test.getVertex(),1));
 	}
 
 }

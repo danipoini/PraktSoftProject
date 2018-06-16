@@ -362,11 +362,16 @@ public class Graph {
 		while(i>=0) {
 			check.add(i);
 			neil = v.get(i).getEdges();
-			for(int j:neil) {
-				if(left.contains(j)) {
-					left.remove(left.indexOf(j));
+			ArrayList<Integer> rem = new ArrayList<Integer>();
+			for(int j = 0; j < neil.size() ; j++) {
+				if(left.contains(neil.get(j))) {
+					left.remove(left.indexOf(neil.get(j)));
+				}
+				else {
+					rem.add(neil.get(j));
 				}
 			}
+			neil.removeAll(rem);
 			neiv = createGraph(v,neil);
 			int [] newcol = this.algBcolors_not_connected(neiv);
 			col = addColors(col,newcol,neil,c);
@@ -448,7 +453,7 @@ public class Graph {
 		double sum = 0;
 		for(int i = 1; i < n;i++) {
 			g[i] = computeG(v,all,all.get(i),g);
-			sum = sum + Math.pow(-1, all.get(i).size())*Math.pow(g[i], q); 
+			sum = sum + Math.pow(-1, v.size() - all.get(i).size())*Math.pow(g[i], q); 
 		}
 		return sum>0;
 	}

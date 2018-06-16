@@ -886,5 +886,128 @@ class Testcases {
 		test.decreaseEdgeElements(4);
 		assertEquals(0,(int)test.getEdges().size());
 	}
+	
+	@Test
+	void test_algW2_it() {
+		Graph test = new Graph();
+		for(int i = 0; i< 8;i++) {
+			test.addVertex();
+		}
+		test.addEdge(0, 1);
+		test.addEdge(0, 2);
+		test.addEdge(0, 3);
+		test.addEdge(2, 3);
+		test.addEdge(3, 4);
+		test.addEdge(3, 6);
+		test.addEdge(4, 6);
+		test.addEdge(5, 6);
+		
+		int[] col = test.algW(test.getVertex());
+		assertEquals(4,col[0]);
+		assertEquals(1,col[1]);
+		assertEquals(1,col[2]);
+		assertEquals(2,col[3]);
+		assertEquals(3,col[4]);
+		assertEquals(3,col[5]);
+		assertEquals(4,col[6]);
+		assertEquals(4,col[7]);
+	}
+	
+	@Test
+	void test_algW1_it() {
+		Graph test = new Graph();
+		for(int i = 0; i< 5;i++) {
+			test.addVertex();
+		}
+		test.addEdge(0, 1);
+		test.addEdge(0, 2);
+		test.addEdge(0, 3);
+		test.addEdge(2, 3);
+		test.addEdge(3, 4);
+		
+		int[] col = test.algW(test.getVertex());
+		assertEquals(3,col[0]);
+		assertEquals(1,col[1]);
+		assertEquals(1,col[2]);
+		assertEquals(2,col[3]);
+		assertEquals(3,col[4]);
+	}
+	
+	@Test
+	void test_algW0_it() {
+		Graph test = new Graph();
+		for(int i = 0; i< 4;i++) {
+			test.addVertex();
+		}
+		test.addEdge(0, 1);
+		test.addEdge(2, 3);
+		
+		int[] col = test.algW(test.getVertex());
+		assertEquals(1,col[0]);
+		assertEquals(2,col[1]);
+		assertEquals(1,col[2]);
+		assertEquals(2,col[3]);
+	}
+	
+	@Test
+	void algM_test() {
+		Graph test = new Graph();
+		for(int i = 0; i< 8;i++) {
+			test.addVertex();
+		}
+		test.addEdge(0, 1);
+		test.addEdge(0, 2);
+		test.addEdge(0, 3);
+		test.addEdge(2, 3);
+		test.addEdge(3, 4);
+		test.addEdge(3, 6);
+		test.addEdge(4, 6);
+		test.addEdge(5, 6);
+		
+		int[] col = test.algM(test.getVertex(),5);
+		for(int i = 0; i < col.length;i++) {
+			assertEquals(col[i],test.verifycoloring(test.getVertex(), col)[i]);
+		}
+		// since the algorithm is based on radomness we can only verivy the coloring which it crates
+		// we can´t exactely tell what the output is
+	}
+	
+	@Test
+	void algI_test() {
+		Graph test = new Graph();
+		test.addVertex();
+		test.addVertex();
+		
+		assertEquals(true,test.algI(test.getVertex(), 1));
+	}
+	
+	@Test
+	void algI_test_1Edgefalse() {
+		Graph test = new Graph();
+		test.addVertex();
+		test.addVertex();
+		test.addEdge(0, 1);
+		
+		assertEquals(false,test.algI(test.getVertex(), 1));
+	}
+	
+	@Test
+	void algI_test_hugegraph() {
+		Graph test = new Graph();
+		for(int i = 0; i< 8;i++) {
+			test.addVertex();
+		}
+		test.addEdge(0, 1);
+		test.addEdge(0, 2);
+		test.addEdge(0, 3);
+		test.addEdge(2, 3);
+		test.addEdge(3, 4);
+		test.addEdge(3, 6);
+		test.addEdge(4, 6);
+		test.addEdge(5, 6);
+		
+		assertEquals(true,test.algI(test.getVertex(), 3));
+		assertEquals(false,test.algI(test.getVertex(), 2));
+	}
 }
 
