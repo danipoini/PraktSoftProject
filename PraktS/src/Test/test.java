@@ -34,7 +34,15 @@ public class test {
 		test.addEdge(1,2);
 		test.addEdge(1,3);
 		test.addEdge(2,3);
-		System.out.println(test.algI(test.getvertices(), 4));
+		test.addEdge(0,3);
+		test.addEdge(0,2);
+		
+		System.out.println(test.algI(test.getvertices(), 3));
+		//int[] x = test.algW(test.getVertex(), 5);
+		int[] y = test.algM(test.getVertex(), 4);
+		for(int i = 0; i< y.length;i++) {
+			System.out.println(" " + y[i]);
+		}
 		
 	}
 

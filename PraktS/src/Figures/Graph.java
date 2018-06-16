@@ -344,14 +344,13 @@ public class Graph {
 	
 	/**
 	 * Given a 3- chromatic graph G, finds a vertex-
-	 * coloring with O(sqrt(n)) colors.
-	 * @param vertices
-	 * @param n
-	 * @return
+	 * coloring with O(sqrt(size)) colors; size is the number of vertices
+	 * @param vertices Array of Vertices
+	 * @return	coloring
 	 */
-	public int[] algW(ArrayList<Vertex> v, int n) {
+	public int[] algW(ArrayList<Vertex> v) {
 		int c = 0;
-		int sqn = (int) Math.ceil(sqrt(n));
+		int sqn = (int) Math.ceil(sqrt(v.size()));
 		
 		ArrayList<Integer> neil = new ArrayList<Integer>();
 		ArrayList<Integer> left = createList(v.size());
@@ -403,7 +402,7 @@ public class Graph {
 		int cucol;
 		while(left.size() > 0 && i <T) {
 			j = (int)(Math.random()*left.size());
-			cucol = (int)(Math.random()*q);
+			cucol = (int)(Math.random()*q) + 1;
 			neib = v.get(left.get(j)).getEdges();
 			Boolean isused = true;
 			for(int u:neib) {
@@ -425,7 +424,7 @@ public class Graph {
 	
 	/**
 	 * Determines whether a graph can be q colored
-	 * @return
+	 * @return true if it can ve colored false if not
 	 */
 	public Boolean algI(ArrayList<Vertex> v, int q) {
 		int n = 1 << v.size();
@@ -444,7 +443,7 @@ public class Graph {
 				j >>= 1;
 				in ++;
 			}
-			int add = addAt(all,csub);
+			addAt(all,csub);
 		}
 		double sum = 0;
 		for(int i = 1; i < n;i++) {
@@ -471,15 +470,24 @@ public class Graph {
 		return (res);
 	}
 	
-	public int addAt(ArrayList<ArrayList<Integer>> a,ArrayList<Integer> sub) {
+	/**
+	 * inserts the element sub to the list according to the length
+	 * @param a list containing the lists
+	 * @param sub list to be inserted
+	 */
+	public void addAt(ArrayList<ArrayList<Integer>> a,ArrayList<Integer> sub) {
 		int i = 0;
 		while(i < a.size() && a.get(i).size() <= sub.size()) {
 			i++;
 		}
 		a.add(i, sub);
-		return i;
 	}
 	
+	/**
+	 * returns the maximal degree (to deterime constant T in algM)
+	 * @param v Array list of vertex
+	 * @return the maximal degree
+	 */
 	public int getMaxDegree(ArrayList<Vertex> v) {
 		int max = v.get(0).getEdges().size();
 		for(int i = 1; i<v.size();i++ ) {
