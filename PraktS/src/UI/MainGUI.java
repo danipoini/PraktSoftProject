@@ -339,7 +339,7 @@ public class MainGUI extends JFrame {
 				updateCenterPanel(new GraphGUI(vertices, graph.algGcolors(vertices)));
 				break;
 			case 2: 
-				updateCenterPanel(new GraphGUI(vertices, graph.algBcolors(vertices)));
+				updateCenterPanel(new GraphGUI(vertices, graph.algBcolors_not_connected(vertices)));
 				break;
 			case 3: 
 				updateCenterPanel(new GraphGUI(vertices, graph.algBcolors(vertices)));
