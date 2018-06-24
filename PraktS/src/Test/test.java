@@ -1,10 +1,9 @@
 package Test;
 
-import static org.junit.jupiter.api.Assumptions.assumingThat;
-
 import java.util.ArrayList;
 
 import Figures.*;
+import UI.MainGUI;
 
 public class test {
 
@@ -25,7 +24,9 @@ public class test {
 		ed0.add(2);
 		ed0.add(3);
 		
-		System.out.println(v.get(0).getEdges());
+		MainGUI gui =  new MainGUI(test);
+		gui.setVisible(true);
+		
 	}
 
 }
