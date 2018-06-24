@@ -95,13 +95,23 @@ public class MainGUI extends JFrame {
 	            @Override
 	            public void mouseClicked(MouseEvent e) {
 	                // GUI gui = new GUI();
-	            	int selectVertex = vertexList.getSelectedIndex();
-	            	int edgeChoice = Integer.parseInt(JOptionPane.showInputDialog("Enter vertex to be connected to"));	            	
 	            	
-	                vertices.get(selectVertex).addEdge(edgeChoice);
-	                vertices.get(edgeChoice).addEdge(selectVertex);
-	            	
-	            	updateEdges(selectVertex);
+	            	SpinnerNumberModel sModel = new SpinnerNumberModel(0, 0, vertices.size()-1, 1);
+	            	JSpinner spinner = new JSpinner(sModel);
+	            	int option = JOptionPane.showOptionDialog(null, spinner, "Enter valid number", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+	            	if (option == JOptionPane.CANCEL_OPTION)
+	            	{
+	            	    // do nothing
+	            	} else if (option == JOptionPane.OK_OPTION)
+	            	{
+	            		int selectVertex = vertexList.getSelectedIndex();
+		            	int edgeChoice = (int) sModel.getNumber();	            	
+		            	
+		                vertices.get(selectVertex).addEdge(edgeChoice);
+		                vertices.get(edgeChoice).addEdge(selectVertex);
+		            	
+		            	updateEdges(selectVertex);
+	            	}
 	            }
 	        });
 	        rightPanel.add(btnAddEdge);
@@ -217,50 +227,42 @@ public class MainGUI extends JFrame {
 	        });
 	        bottomPanel.add(btnClrGrph);
 	        
-	        //displayGraphButton
-	        JButton btnDsplGrph = new JButton("No color");
-	        btnDsplGrph.addMouseListener(new MouseAdapter() {
+	        //noColorButton
+	        JButton btnDsplNoColor = new JButton("No color");
+	        btnDsplNoColor.addMouseListener(new MouseAdapter() {
 	            @Override
 	            public void mouseClicked(MouseEvent e) {
 	            	updateCenterPanel(new GraphGUI(vertices));
 	            	
 	            }
 	        });
-	        bottomPanel.add(btnDsplGrph, BorderLayout.SOUTH);
+	        bottomPanel.add(btnDsplNoColor, BorderLayout.SOUTH);
 	        
 	        //algGbtn
-		    JButton algGbtn = new JButton("Use Alg G");
-		    algGbtn.addMouseListener(new MouseAdapter() {
+		    JButton btnColorAlgs = new JButton("Use a coloring Algorithm");
+		    btnColorAlgs.addMouseListener(new MouseAdapter() {
 		        @Override
 		        public void mouseClicked(MouseEvent e) {
-		        	updateCenterPanel(new GraphGUI(vertices, graph.algGcolors(vertices)));
+		        	Object[] options = {
+		                    "Algorithm X",
+		                    "Algorithm G",
+		                    "Algorithm B ",
+		                    "Algorithm B (connected graph)",
+		                    "Algorithm W",
+		                    "Algorithm M" };
+		        	int choice = JOptionPane.showOptionDialog(mainPanel,
+				    "Please choose a coloring algroithm",
+				    "Choose Algorithm",
+				    JOptionPane.YES_NO_CANCEL_OPTION,
+				    JOptionPane.QUESTION_MESSAGE,
+				    null,
+				    options,//the titles of buttons
+				    options[5]);
 		        	
+		        	algortithmDialog(graph, choice);
 		        }
 		    });
-		    bottomPanel.add(algGbtn, BorderLayout.SOUTH);
-		    
-		  //algXbtn
-		    JButton algXbtn = new JButton("Use Alg X");
-		    algXbtn.addMouseListener(new MouseAdapter() {
-		        @Override
-		        public void mouseClicked(MouseEvent e) {
-		        	updateCenterPanel(new GraphGUI(vertices, graph.algXcolors(vertices)));
-		        	
-		        }
-		    });
-		    bottomPanel.add(algXbtn, BorderLayout.SOUTH);
-		    
-		  //algMbtn
-		    JButton algMbtn = new JButton("Use Alg M with q=10");
-		    algMbtn.addMouseListener(new MouseAdapter() {
-		        @Override
-		        public void mouseClicked(MouseEvent e) {
-		        	updateCenterPanel(new GraphGUI(vertices, graph.algM(vertices, 20)));
-		        	
-		        }
-		    });
-		    bottomPanel.add(algMbtn, BorderLayout.SOUTH);
-	    		
+		    bottomPanel.add(btnColorAlgs, BorderLayout.SOUTH);
 	    }
     
     
@@ -324,6 +326,45 @@ public class MainGUI extends JFrame {
 	    }
 	    
 	    return colors;
+	}
+	
+	void algortithmDialog(Graph graph, int choice) {
+		
+		
+		switch(choice) {
+			case 0: 
+				updateCenterPanel(new GraphGUI(vertices, graph.algXcolors(vertices)));
+				break;
+			case 1: 
+				updateCenterPanel(new GraphGUI(vertices, graph.algGcolors(vertices)));
+				break;
+			case 2: 
+				updateCenterPanel(new GraphGUI(vertices, graph.algBcolors(vertices)));
+				break;
+			case 3: 
+				updateCenterPanel(new GraphGUI(vertices, graph.algBcolors(vertices)));
+				break;
+			case 4: 
+				updateCenterPanel(new GraphGUI(vertices, graph.algW(vertices)));
+				break;
+			case 5: 
+				SpinnerNumberModel sModel = new SpinnerNumberModel(1, 1, vertices.size(), 1);
+            	JSpinner spinner = new JSpinner(sModel);
+            	int option = JOptionPane.showOptionDialog(null, spinner, "Enter amount of colors", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+            	if (option == JOptionPane.CANCEL_OPTION)
+            	{
+            	    // do nothing
+            	} else if (option == JOptionPane.OK_OPTION)
+            	{
+	            	int qChoice = (int) sModel.getNumber();	
+					updateCenterPanel(new GraphGUI(vertices, graph.algM(vertices, qChoice)));
+            	}
+				break;
+		
+		}
+    	
+    	
+    	
 	}
 }	
 	class VertexListRenderer extends DefaultListCellRenderer 

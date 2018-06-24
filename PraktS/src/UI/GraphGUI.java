@@ -58,20 +58,33 @@ public class GraphGUI extends JPanel
     
     public GraphGUI(ArrayList<Vertex> vertices, int[] colors) 
     {
-    	n =  vertices.size();
-    	edges = new ArrayList<Integer>();
-    	
-    	colorList = new ArrayList<Integer>();
-    	
-    	for(int i = 0; i < n; i++)
-    	{
-    		colorList.add(colors[i]);
-    		for(int j = 0; j < vertices.get(i).getEdges().size();j++)
-    		{
-    			edges.add(i);
-    			edges.add(vertices.get(i).getEdges().get(j));
-    		}
+    	if(colors == null){
+    		JOptionPane.showMessageDialog(this,
+        		    "Could not compute the coloring. The graph will be black.",
+        		    "Coloring Error",
+        		    JOptionPane.ERROR_MESSAGE);
     	}
+    		n =  vertices.size();
+        	edges = new ArrayList<Integer>();
+        	
+        	colorList = new ArrayList<Integer>();
+        	
+        	for(int i = 0; i < n; i++)
+        	{
+        		if(colors == null){
+        			colorList.add(0);
+        		}
+            	else{
+            		colorList.add(colors[i]);
+            	}
+        		for(int j = 0; j < vertices.get(i).getEdges().size();j++)
+        		{
+        			edges.add(i);
+        			edges.add(vertices.get(i).getEdges().get(j));
+        		}
+        	}
+    	
+    	
     }
     
     @Override
