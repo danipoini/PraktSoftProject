@@ -24,6 +24,7 @@ public class test {
 		ed0.add(2);
 		ed0.add(3);
 		
+		//Graph test2 = new Graph();
 		MainGUI gui =  new MainGUI(test);
 		gui.setVisible(true);
 		

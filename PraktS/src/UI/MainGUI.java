@@ -27,13 +27,14 @@ public class MainGUI extends JFrame {
     private static  JPanel leftPanel;
     private static JPanel bottomPanel;
     
+    //default sizes
     final int offsetx = 200, 
     		offsety = 200, 
     		width = 1200,
     		height = 720;
     
     
-    public static ArrayList<Color> colors = getUniqueColors(30);
+    public static ArrayList<Color> colors = getContrastingColors(30);
 	private static ArrayList<Vertex> vertices;
 	
 	private static JList vertexList;
@@ -48,7 +49,12 @@ public class MainGUI extends JFrame {
    	    
     	vertices = graph.getvertices();
     	vertexList = new JList(vertices.toArray());
-    	edgeList = new JList(vertices.get(0).getEdges().toArray());
+    	if(vertices.size() > 0)
+    		edgeList = new JList(vertices.get(0).getEdges().toArray());
+    	else
+    		edgeList = new JList();
+        colors = getContrastingColors(Math.max(10, vertices.size()));
+
     	
     	//main
         mainPanel = new JPanel();
@@ -62,12 +68,13 @@ public class MainGUI extends JFrame {
         
         //center 
         centerPanel = new GraphGUI();
-        centerPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createRaisedBevelBorder(), "Graph", TitledBorder.CENTER, TitledBorder.TOP));
         mainPanel.add(centerPanel, BorderLayout.CENTER);
         centerPanel.setLayout(null);
 
         //right
         rightPanel = new JPanel();
+        rightPanel.setPreferredSize(new Dimension(200,0)); 
+        	// BorderLayout Ignores the height dimension of preferredSize for East and West components.
         mainPanel.add(rightPanel, BorderLayout.EAST);
         rightPanel.setBorder(BorderFactory.createTitledBorder("Edge Configurator"));
         rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
@@ -89,9 +96,8 @@ public class MainGUI extends JFrame {
 	            public void mouseClicked(MouseEvent e) {
 	                // GUI gui = new GUI();
 	            	int selectVertex = vertexList.getSelectedIndex();
-	            	
 	            	int edgeChoice = Integer.parseInt(JOptionPane.showInputDialog("Enter vertex to be connected to"));	            	
-	            	 
+	            	
 	                vertices.get(selectVertex).addEdge(edgeChoice);
 	                vertices.get(edgeChoice).addEdge(selectVertex);
 	            	
@@ -105,19 +111,28 @@ public class MainGUI extends JFrame {
 	        btnDelEdge.addMouseListener(new MouseAdapter() {
 	            @Override
 	            public void mouseClicked(MouseEvent e) {
+	            	
+	            if(edgeList.getSelectedValue() == null)	
+	            {
+	            	JOptionPane.showMessageDialog(mainPanel,
+	            		    "Please select an edge to remove.",
+	            		    "Removal Error",
+	            		    JOptionPane.ERROR_MESSAGE);
+	            }else {
 	            	int selectVertex = vertexList.getSelectedIndex(),
-	            	 selectEdge = (int) edgeList.getSelectedValue();
-	            		
-	                vertices.get(selectVertex).removeEdge(selectEdge);
-	                vertices.get(selectEdge).removeEdge(selectVertex);
-	                
-	                updateEdges(selectVertex);
+   	            		selectEdge = (int) edgeList.getSelectedValue();
+   	            		
+   	                vertices.get(selectVertex).removeEdge(selectEdge);
+   	                vertices.get(selectEdge).removeEdge(selectVertex);
+   	                
+   	                updateEdges(selectVertex);
 	            }
-	        });
+	        }});
 	        rightPanel.add(btnDelEdge);
 
         //left
         leftPanel = new JPanel();
+        leftPanel.setPreferredSize(new Dimension(200,0)); 
         mainPanel.add(leftPanel, BorderLayout.WEST);
         leftPanel.setBorder(BorderFactory.createTitledBorder("Vertices"));
         leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
@@ -164,10 +179,22 @@ public class MainGUI extends JFrame {
 	            @Override
 	            public void actionPerformed(ActionEvent evt)
 	            {
+	            	
+	            	
 	            	int i =  vertexList.getSelectedIndex() ; 
-	            	graph.removeVertex(i);
-	            	updateVertices();
-	            	vertexList.setSelectedIndex(i-1);
+	            	if(i >= 0)
+	            	{
+	            		graph.removeVertex(i);
+		            	updateVertices();
+		            	vertexList.setSelectedIndex(i-1);
+	            		
+	            	}
+	            	else{
+    	            	JOptionPane.showMessageDialog(mainPanel,
+    	            		    "There are no more vertices left to remove.",
+    	            		    "Removal Error",
+    	            		    JOptionPane.ERROR_MESSAGE);
+    	            }
 	            }
 	        });
 	        leftPanel.add(btnDelVert);
@@ -182,13 +209,9 @@ public class MainGUI extends JFrame {
 	        btnClrGrph.addMouseListener(new MouseAdapter() {
 	            @Override
 	            public void mouseClicked(MouseEvent e) {
-	                centerPanel.removeAll();
-	                centerPanel.validate();
-		            centerPanel.repaint();
-
-		            mainPanel.remove(centerPanel);
-	                mainPanel.revalidate();
-	                mainPanel.repaint();
+	            	
+	            	clearCenterPanel();
+	                
 	                
 	            }
 	        });
@@ -247,6 +270,7 @@ public class MainGUI extends JFrame {
 	static void updateEdges(int vertexIndex) 
 	{
 		edgeList = new JList(vertices.get(vertexIndex).getEdges().toArray());;
+		edgeList.setSelectedIndex(vertices.get(vertexIndex).getEdges().size()-1);
 		edgeScrollPane.setViewportView(edgeList);
 	}
 	
@@ -264,32 +288,32 @@ public class MainGUI extends JFrame {
         };
         vertexList.addListSelectionListener(vertexSelector);
         vertexList.setSelectedIndex(vertices.size()-1);
+        
+        colors = getContrastingColors(Math.max(10, vertices.size()));
+        
 		vertexScrollPane.setViewportView(vertexList);
 	}
-	
-	void updateCenterPanel(GraphGUI graph){
+	void clearCenterPanel() {
 		centerPanel.removeAll();
-        centerPanel.validate();
-        centerPanel.repaint();
 
         mainPanel.remove(centerPanel);
         mainPanel.revalidate();
         mainPanel.repaint();
-        
-       centerPanel.removeAll();
-       centerPanel = graph;
-       centerPanel.validate();
-       centerPanel.repaint();
+	}
+	void updateCenterPanel(GraphGUI graph){
        
-       mainPanel.remove(centerPanel);
+		clearCenterPanel();
+		
+       centerPanel = graph;
        mainPanel.add(centerPanel, BorderLayout.CENTER);
+       
        mainPanel.validate();
        mainPanel.repaint();
         
 	}
 	
-	static ArrayList<Color> getUniqueColors(int amount) {
-	    int min = 0x202020,
+	static ArrayList<Color> getContrastingColors(int amount) {
+	    int min = 0x101010,
 	    		max = 0xD0D0D0,
 	    		step = (max-min)/amount;
 
