@@ -146,6 +146,7 @@ public class Graph {
 			for(int l=1;l<=i;l++) {
 				for(int m=0;m<vertices.size();m++) {
 					if(l==z[m]) {
+						dyn.add(m);
 						for(int k=0;k<vertices.get(m).getEdges().size();k++) {
 							dyn.add(vertices.get(m).getEdge(k));
 						}
@@ -207,6 +208,9 @@ public class Graph {
 	public boolean checkvertices(Vector<Integer> dyn) {
 		int[] j= new int[dyn.size()];
 		for(int i=0;i<dyn.size();i++) {
+			
+		}
+		for(int i=0;i<dyn.size();i++) {
 			j[i]=dyn.elementAt(i);
 		}
 		Arrays.sort(j);
@@ -226,7 +230,7 @@ public class Graph {
 	 */
 	public  int[] algXcolors(ArrayList<Vertex> vertices) {
 		int i=1;
-		while(1>0) {
+		while(true) {
 			if(exhaustive(vertices, i)!=null) {
 				return exhaustive(vertices, i);
 			}
