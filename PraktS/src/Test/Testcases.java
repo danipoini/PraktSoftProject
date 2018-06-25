@@ -197,37 +197,38 @@ class Testcases {
 	void test_check_getvertices_true() {
 		Graph test = new Graph();
 		
-		Vector <Integer>z= new Vector();
-		z.add(0);
-		z.add(1);
-		z.add(7);
-		z.add(4);
+		Vector <Integer>vertices= new Vector();
+		vertices.add(2);
+		vertices.add(3);
+		vertices.add(6);
 		
-		assertEquals(true,test.checkvertices(z));
+		Vector <Integer>edges= new Vector();
+		edges.add(0);
+		edges.add(1);
+		edges.add(7);
+		edges.add(4);
+		
+		assertEquals(true,test.checkvertices(vertices,edges));
 	}
 	
 	@Test
 	void test_check_getvertices_false() {
 		Graph test = new Graph();
 		
-		Vector <Integer> y= new Vector();
-		y.add(0);
-		y.add(2);
-		y.add(1);
-		y.add(0);
+		Vector <Integer>vertices= new Vector();
+		vertices.add(2);
+		vertices.add(3);
+		vertices.add(1);
+		
+		Vector <Integer> edges= new Vector();
+		edges.add(0);
+		edges.add(2);
+		edges.add(1);
+		edges.add(0);
 				
-		assertEquals(false,test.checkvertices(y));
+		assertEquals(false,test.checkvertices(vertices,edges));
 	}
 	
-	@Test
-	void test_check_getvertices_one_entry() {
-		Graph test = new Graph();
-		
-		Vector <Integer> x= new Vector();
-		x.add(1);
-
-		assertEquals(true,test.checkvertices(x));
-	}
 	
 	@Test
 	void test_check_increase_only_last() {
