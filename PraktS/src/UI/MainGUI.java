@@ -25,14 +25,14 @@ public class MainGUI extends JFrame {
     private static JPanel rightPanel;
     private static JPanel centerPanel;
     private static  JPanel leftPanel;
-    private static JPanel bottomPanel;
+    private static JPanel bottomPanel; 
+    
     
     //default sizes
     final int offsetx = 200, 
     		offsety = 200, 
     		width = 1200,
     		height = 720;
-    
     
     public static ArrayList<Color> colors = getContrastingColors(30);
 	private static ArrayList<Vertex> vertices;
@@ -105,10 +105,9 @@ public class MainGUI extends JFrame {
 	            	} else if (option == JOptionPane.OK_OPTION)
 	            	{
 	            		int selectVertex = vertexList.getSelectedIndex();
-		            	int edgeChoice = (int) sModel.getNumber();	            	
+		            	int edgeChoice = (int) sModel.getNumber();	       
 		            	
-		                vertices.get(selectVertex).addEdge(edgeChoice);
-		                vertices.get(edgeChoice).addEdge(selectVertex);
+		                graph.addEdge(selectVertex, edgeChoice);
 		            	
 		            	updateEdges(selectVertex);
 	            	}
