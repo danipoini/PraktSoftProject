@@ -137,6 +137,7 @@ public class Graph {
 		boolean b=false;
 		boolean b2=false;
 		Vector <Integer> dyn = new Vector();
+		Vector <Integer> dyn2 = new Vector();
 		int[] z=new int[vertices.size()];
 		for(int j=0;j<vertices.size();j++) {
 			z[j]=1;                               
@@ -146,16 +147,17 @@ public class Graph {
 			for(int l=1;l<=i;l++) {
 				for(int m=0;m<vertices.size();m++) {
 					if(l==z[m]) {
-						dyn.add(m);
+						dyn2.add(m);
 						for(int k=0;k<vertices.get(m).getEdges().size();k++) {
 							dyn.add(vertices.get(m).getEdge(k));
 						}
 					}					
 				}
 				if(b==true) {
-					b=checkvertices(dyn);
+					b=checkvertices(dyn,dyn2);
 				}
 				dyn.clear();
+				dyn2.clear();
 			}
 			if(b==true) {
 				return z;
@@ -201,11 +203,20 @@ public class Graph {
 	}
 
 	/**
-	 * it checks whether choosen vertices has a connection among this choosen vertices
-	 * @param dyn are the choosen vertices
+	 * it checks whether choosen vertices has edges among this choosen vertices
+	 * @param dyn are the edges
+	 * @param dyn2 are the choosen vertices
 	 * @return is a bool variable which is true if there is no such a connection. otherwise it is false
 	 */
-	public boolean checkvertices(Vector<Integer> dyn) {
+	public boolean checkvertices(Vector<Integer> dyn,Vector<Integer> dyn2) {
+		for(int i=0;i<dyn.size();i++) {
+			if(dyn2.contains(dyn.get(i))) {
+				return false;
+			}
+		}
+		
+		
+		/*
 		int[] j= new int[dyn.size()];
 		for(int i=0;i<dyn.size();i++) {
 			
@@ -218,7 +229,7 @@ public class Graph {
 			if(j[i]==j[i+1]) {
 				return false;
 			}
-		}
+		}*/
 		return true;
 	}
 
