@@ -3,7 +3,6 @@ package Test;
 import java.util.ArrayList;
 
 import Figures.*;
-import UI.MainGUI;
 
 public class test {
 
@@ -17,17 +16,18 @@ public class test {
 		test.addEdge(0, 3);
 		test.addEdge(0, 4);
 		test.addEdge(2, 3);
+
 		
-		ArrayList<Vertex> v = test.createGraph(test.getVertex(), test.getVertex().get(0).getEdges());
-		ArrayList<Integer> ed0 = new ArrayList<Integer>();
-		ed0.add(1);
-		ed0.add(2);
-		ed0.add(3);
+		int [] col = test.algM(test.getVertex(), 3);
+		int [] col2 = test.algM(test.getVertex(), 2);
 		
-		//Graph test2 = new Graph();
-		MainGUI gui =  new MainGUI(test);
-		gui.setVisible(true);
-		
+		for(int i = 0; i< col.length;i++) {
+			System.out.println(col[i]);
+		}
+		System.out.println("-------------");
+		for(int i = 0; i < col.length;i++) {
+			System.out.println(col2[i]);
+		}
 	}
 
 }

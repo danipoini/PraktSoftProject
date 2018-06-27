@@ -214,22 +214,6 @@ public class Graph {
 				return false;
 			}
 		}
-		
-		
-		/*
-		int[] j= new int[dyn.size()];
-		for(int i=0;i<dyn.size();i++) {
-			
-		}
-		for(int i=0;i<dyn.size();i++) {
-			j[i]=dyn.elementAt(i);
-		}
-		Arrays.sort(j);
-		for(int i=0;i<j.length-1;i++) {
-			if(j[i]==j[i+1]) {
-				return false;
-			}
-		}*/
 		return true;
 	}
 
@@ -411,19 +395,21 @@ public class Graph {
 	 */
 	public int[] algM(ArrayList<Vertex> v, int q) {
 		int maxDeg = getMaxDegree(v);
-		int T = (int) (q*v.size() * (Math.log(2*v.size())/(q- 4* maxDeg)));
-		if(T< 0) {
+		int T;
+		if(q>4*maxDeg) {
+			T = (int) (q*v.size() * (Math.log(2*v.size())/(q- 4* maxDeg)));
+		}
+		else{
 			T = 100000;
 		}
 		int[] col = new int[v.size()];
 		ArrayList<Integer> neib = new ArrayList<Integer>();
-		ArrayList<Integer> left = createList(v.size());
 		int j; int i = 0;
 		int cucol;
-		while(left.size() > 0 && i <T) {
-			j = (int)(Math.random()*left.size());
+		while(i <T) {
+			j = (int)(Math.random()*v.size());
 			cucol = (int)(Math.random()*q) + 1;
-			neib = v.get(left.get(j)).getEdges();
+			neib = v.get(j).getEdges();
 			Boolean isused = true;
 			for(int u:neib) {
 				if(col[u] == cucol) {
@@ -431,12 +417,11 @@ public class Graph {
 				}
 			}
 			if(isused) {
-				col[left.get(j)] = cucol;
-				left.remove(j);
+				col[j] = cucol;
 			}
 			i++;
 		}
-		if(left.size()==0) {
+		if(Arrays.asList(col).contains(null)) {
 			return col;
 		}
 		else return null;
