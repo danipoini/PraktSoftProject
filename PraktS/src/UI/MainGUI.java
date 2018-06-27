@@ -248,7 +248,8 @@ public class MainGUI extends JFrame {
 		                    "Algorithm B ",
 		                    "Algorithm B (connected graph)",
 		                    "Algorithm W",
-		                    "Algorithm M" };
+		                    "Algorithm M",
+		                    "Algorithm I"};
 		        	int choice = JOptionPane.showOptionDialog(mainPanel,
 				    "Please choose a coloring algroithm",
 				    "Choose Algorithm",
@@ -329,7 +330,6 @@ public class MainGUI extends JFrame {
 	
 	void algortithmDialog(Graph graph, int choice) {
 		
-		
 		switch(choice) {
 			case 0: 
 				updateCenterPanel(new GraphGUI(vertices, graph.algXcolors(vertices)));
@@ -359,11 +359,23 @@ public class MainGUI extends JFrame {
 					updateCenterPanel(new GraphGUI(vertices, graph.algM(vertices, qChoice)));
             	}
 				break;
-		
+			case 6: 
+				SpinnerNumberModel sModel2 = new SpinnerNumberModel(1, 1, vertices.size(), 1);
+            	JSpinner spinner2 = new JSpinner(sModel2);
+            	int option2 = JOptionPane.showOptionDialog(null, spinner2, "Enter amount of colors", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+            	if (option2 == JOptionPane.CANCEL_OPTION)
+            	{
+            	    // do nothing
+            	} else if (option2 == JOptionPane.OK_OPTION)
+            	{
+	            	int qChoice = (int) sModel2.getNumber();	
+	            	if(graph.algI(vertices, qChoice) == true)
+	            		JOptionPane.showMessageDialog(this, "The graph can be q-colored");	
+	            	else
+	            		JOptionPane.showMessageDialog(this, "The graph can not be q-colored");	
+            	}
+				break;
 		}
-    	
-    	
-    	
 	}
 }	
 	class VertexListRenderer extends DefaultListCellRenderer 
